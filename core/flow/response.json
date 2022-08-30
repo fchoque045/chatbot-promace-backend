@@ -1,0 +1,123 @@
+{
+    "DEFAULT":{
+        "replyMessage":[
+            "*Esta respuesta es un respuesta default* cuando no se consigue una palabra clave \n",
+            "Prueba escribiendo *hola* \n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_0":{
+        "replyMessage":[
+            "El flujo ha finalizado \n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_1":{
+        "replyMessage":[
+            "Hola! y✌️ Bienvenido a este 🤖 CHATBOT de Whatsapp, lo primero \n",
+            "decirte que mi nombre es *Fabián* 😎  \n",
+            "\n Si necesitas ver más info sobre las capacitacion docente ",
+            "escribe *cursos* o *info*"
+        ],
+        "media":"",
+        "trigger":null
+    },
+    "STEP_2":{
+        "replyMessage":[
+            "Perfecto, te voy a pasar la lista ",
+            "de los cursos que se encuentran disponibles en la plataforma 🙂 \n\n",
+            "*1-* Integración innovadora de las TIC \n",
+            "*2-* Biodiversidad \n",
+            "*3-* Cambio climático (Próximamente) \n",
+            "*4-* Gestión de residuos solidos (Próximamente) \n",
+            "Selecciona el curso que te interese \n"
+        ],
+        "media":"",
+        "trigger":null
+    },
+    "STEP_2_1":{
+        "replyMessage":[
+            "*Integración innovadora de las TIC* \n",
+            "Este curso nos ofrece una introducción a los propósitos del PROMACE desde la práctica de habilidades básica digitales y los fundamentos para la integración innovadora de las TIC. Su cursado es prioritario y previo al acceso a la oferta de cursos que actualizan y profundizan la formación docente en desarrollo curricular y educación digital. \n",
+            "*Inscribite* https://promace.jujuy.edu.ar/course/view.php?id=12 \n\n"
+        ],
+        "media":"",
+        "trigger":null
+    },
+    "STEP_2_2":{
+        "replyMessage":[
+            "*Biodiversidad* \n",
+            "El presente trayecto aborda la Educación Ambiental Integral a través de la problemática de la pérdida de diversidad biológica \n",
+            "*Inscribite* https://promace.jujuy.edu.ar/enrol/index.php?id=54 \n\n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_2_3":{
+        "replyMessage":[
+            "*Cambio climático* \n",
+            "Este curso estará disponible próximamente! 😮"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_2_4":{
+        "replyMessage":[
+            "Gestión de residuos solidos (GIRSU) \n",
+            "Este curso estará disponible próximamente! 🙂"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_3":{
+        "replyMessage":[
+            "Ser docente de la provincia y/o nación. \n",
+            "Comprometerse a asistir y participar a los cursos de Formación. \n",
+            "Tener interés en mejorar las prácticas pedagógicas. \n",
+            "Estar dispuesto a formarse a partir de una mirada de la educación inclusiva, diversa, innovadora e intercultural. \n",
+            "Tener interés en contribuir en un entorno de aprendizaje positivo. \n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_4":{
+        "replyMessage":[
+            "Gracias a vos! \n"
+        ],
+        "media":"",
+        "trigger":null
+    },
+    "STEP_5":{
+        "replyMessage":[
+            "Muy bien te comparto el video tutorial para recuperar tu contraseña \n",
+            "https://promace.jujuy.edu.ar/doc2022/tutoprincipal/COMO%20RECUPERAR%20CONTRASEA2022.mp4 \n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_6":{
+        "replyMessage":[
+            "Perfecto, te voy a pasar un tutorial para ingresar al campus ",
+            "https://promace.jujuy.edu.ar/doc2022/tutoprincipal/COMO%20INGRESAR%20AL%20AULA%202022.mp4"
+        ],
+        "media":"",
+        "trigger":null
+    },
+    "STEP_7":{
+        "replyMessage":[
+            "El siguiente link te redirecciona a un tutorial de como matricularte a un curso \n",
+            "https://promace.jujuy.edu.ar/doc2022/tutoprincipal/COMO%20MATRICULARME%20EN%20CURSOS.mp4 \n"
+        ],
+        "media":null,
+        "trigger":null
+    },
+    "STEP_8":{
+        "replyMessage":[
+            "Esto es una nota de voz \n"
+        ],
+        "media":"",
+        "trigger":null
+    }
+}

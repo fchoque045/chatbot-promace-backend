@@ -1,0 +1,91 @@
+[
+    {
+        "keywords":  [
+            "hola",
+            "hola!",
+            "ola",
+            "ole",
+            "inicio",
+            "welcome",
+            "buenos días",
+            "buenas tardes",
+            "buenas noches",
+            "necesito saber"
+        ],
+        "key": "STEP_1"
+    },
+    {
+        "keywords":  [
+            "cursos",
+            "info",
+            "curso"        ],
+        "key": "STEP_2"
+    },
+    {
+        "keywords":  [
+            "1"
+        ],
+        "key": "STEP_2_1"
+    },
+    {
+        "keywords":  [
+            "2"
+        ],
+        "key": "STEP_2_2"
+    },
+    {
+        "keywords":  [
+            "3"
+        ],
+        "key": "STEP_2_3"
+    },
+    {
+        "keywords":  [
+            "4"
+        ],
+        "key": "STEP_2_4"
+    },
+    {
+        "keywords":  [
+            "requisito",
+            "requisitos"
+        ],
+        "key": "STEP_3"
+    },
+    {
+        "keywords":  [
+            "muchas gracias",
+            "ok",
+            "gracias",
+            "vale gracias"
+        ],
+        "key": "STEP_4"
+    },
+    {
+        "keywords":  [
+            "contraseña",
+            "recuperar contraseña"
+        ],
+        "key": "STEP_5"
+    },
+    {
+        "keywords":  [
+            "ingresar al campus",
+            "campus",
+            "ingresar"
+        ],
+        "key": "STEP_6"
+    },
+    {
+        "keywords":  [
+            "matricularme"
+        ],
+        "key": "STEP_7"
+    },
+    {
+        "keywords":  [
+            "audio"
+        ],
+        "key": "STEP_8"
+    }
+]
