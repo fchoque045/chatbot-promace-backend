@@ -88,6 +88,15 @@ class Chatbox {
     }
 }
 
-
 const chatbox = new Chatbox();
 chatbox.display();
+
+fetch('http://localhost:8000/api/categoria', {
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    },
+})
+    .then(response => console.log(response))

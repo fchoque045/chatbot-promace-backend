@@ -1,3 +1,4 @@
+from ast import Try
 import json
 import os
 from rest_framework import status
@@ -8,8 +9,8 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from config.settings import BASE_DIR
 
-from core.chat.models import MessageBienvenida, MessageType
-from core.chat.serializers import MessageSerializer, MessageTypeSerializer
+from core.chat.models import Generico, Categoria, Pregunta
+from core.chat.serializers import GenericoSerializer, CaterogiaSerializer, PreguntaSerializer
 
 @api_view(('POST',))
 def get_response(request):
@@ -37,9 +38,9 @@ def get_response(request):
 #         data = self.get_serializer(data, many = True)
 #         return Response(data.data)
 
-class MessageViewSet(viewsets.ModelViewSet):
-    queryset = MessageBienvenida.objects.all()
-    serializer_class = MessageSerializer
+class GenericoViewSet(viewsets.ModelViewSet):
+    queryset = Generico.objects.all()
+    serializer_class = GenericoSerializer
 
     # def get(self, request, format=None):
     #     return Response("test")
@@ -50,31 +51,58 @@ class MessageViewSet(viewsets.ModelViewSet):
     #     return Response(message_serializer.data, status = status.HTTP_200_OK)
 
 
-class MessageListAPIView(ListAPIView):
-    queryset = MessageBienvenida.objects.all()
-    serializer_class = MessageSerializer
+class GenericoListAPIView(ListAPIView):
+    queryset = Generico.objects.all()
+    serializer_class = GenericoSerializer
 
-class MessageTypeListAPIView(ListAPIView):
-    queryset = MessageType.objects.all()
-    serializer_class = MessageTypeSerializer
-
-    def get_queryset(self, type=None):
-        print('en get_queryset', type[0])
-        if type is None:
+    def get_queryset(self, **kwargs):
+        try: 
+            return self.get_serializer().Meta.model.objects.filter(type=kwargs['type'])
+        except: 
             return self.get_serializer().Meta.model.objects.all()
-        return self.get_serializer().Meta.model.objects.filter(type=type[0])
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset(type=args))
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        try:
+            queryset = self.filter_queryset(self.get_queryset(type=kwargs['type']))
+        except:
+            queryset = self.filter_queryset(self.get_queryset())        
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
-        type = request.data['type']
-        return self.list(request, type, **kwargs)
+    def get(self, request, *args, **kwargs):
+        type = request.GET.get('type')
+        if type is None:
+            return self.list(request, *args, **kwargs)
+        return self.list(request, type=type)
+
+class CategoriaListAPIView(ListAPIView):
+    queryset = Categoria.objects.all()
+    serializer_class = CaterogiaSerializer
+    
+    def get(self, request, *args, **kwargs):
+        print('hola desde get')
+        return Response({'message': 12}, status=status.HTTP_201_CREATED)
+
+
+
+class PreguntaListAPIView(ListAPIView):
+    queryset = Pregunta.objects.all()
+    serializer_class = PreguntaSerializer
+
+    def get_queryset(self, **kwargs):
+        if kwargs is None:
+            return self.get_serializer().Meta.model.objects.all()
+        id_category = Categoria.objects.get(nombre_corto=kwargs['category'])
+        return self.get_serializer().Meta.model.objects.filter(categoria=id_category)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset(category=kwargs['category']))        
+
+        serializer = self.get_serializer(queryset, many=True)
+        print({'body':serializer.data})
+        return Response({'body':serializer.data})
+
+    def post(self, request, *args, **kwargs):        
+        category = request.data['categoria']
+        return self.list(request,category=category)
