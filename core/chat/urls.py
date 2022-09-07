@@ -8,5 +8,5 @@ urlpatterns = [
     # path('messages/', MessageViewSet.as_view(), name='message'),
     path('generico/', GenericoListAPIView.as_view(), name='generico_list'),
     path('categoria/', CategoriaListAPIView.as_view(), name='categoria_list'),
-    path('pregunta/', PreguntaListAPIView.as_view(), name='pregunta_list')
+    path('pregunta/', PreguntaListAPIView.as_view(), name='pregunta_list'),
 ]

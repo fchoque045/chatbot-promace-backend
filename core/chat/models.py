@@ -1,3 +1,4 @@
+from ast import keyword
 from django.db import models
 
 # Create your models here.
@@ -11,9 +12,10 @@ from django.db import models
 
 TYPE = [
     ('MBie', 'Mensaje Bienvenida'),
-    ('MDes', 'Mensaje Despedida'),
+    ('MDesp', 'Mensaje Despedida'),
     ('MErr', 'Mensaje Error'),
     ('MDef', 'Mensaje Default'),
+    ('MDesc', 'Mensaje Descripcion'),
 ]
 
 class Generico(models.Model):
@@ -45,10 +47,24 @@ class Categoria(models.Model):
         """Unicode representation of Categoria."""
         return self.nombre_corto
 
+class Keyword(models.Model):
+    """Model definition for Keyword."""
+    text = models.CharField(max_length = 255, blank = False, null = False)    
+
+    class Meta:
+        """Meta definition for Keyword."""
+        verbose_name = 'keyword'
+        verbose_name_plural = 'keywords'
+
+    def __str__(self):
+        """Unicode representation of Keyword."""
+        return self.text
+
 class Pregunta(models.Model):
     """Model definition for Pregunta."""
-    text = models.CharField(max_length = 255, blank = False, null = False)    
-    respuesta = models.CharField(max_length = 255, blank = False, null = False)    
+    text = models.CharField(max_length = 255, blank = False, null = False)
+    respuesta = models.CharField(max_length = 500, blank = False, null = False)
+    keyword = models.ManyToManyField(Keyword)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null = False)
 
     class Meta:
@@ -59,3 +75,6 @@ class Pregunta(models.Model):
     def __str__(self):
         """Unicode representation of Pregunta."""
         return self.text
+
+    def get_keywords(self):
+        return "\n".join([k.text + ',' for k in self.keyword.all()])

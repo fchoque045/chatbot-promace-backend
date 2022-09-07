@@ -1,16 +1,19 @@
-from ast import Try
-import json
-import os
+from unicodedata import category
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from config.settings import BASE_DIR
 
-from core.chat.models import Generico, Categoria, Pregunta
+from core.chat.models import Generico, Categoria, Pregunta, Keyword
 from core.chat.serializers import GenericoSerializer, CaterogiaSerializer, PreguntaSerializer
+
+import re
+import json
+import os
 
 @api_view(('POST',))
 def get_response(request):
@@ -80,29 +83,59 @@ class CategoriaListAPIView(ListAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CaterogiaSerializer
     
-    def get(self, request, *args, **kwargs):
-        print('hola desde get')
-        return Response({'message': 12}, status=status.HTTP_201_CREATED)
-
-
+    # def get(self, request, *args, **kwargs):
+    #     print('hola desde get')
+    #     return Response({'message': 12}, status=status.HTTP_201_CREATED)
 
 class PreguntaListAPIView(ListAPIView):
     queryset = Pregunta.objects.all()
     serializer_class = PreguntaSerializer
 
     def get_queryset(self, **kwargs):
-        if kwargs is None:
-            return self.get_serializer().Meta.model.objects.all()
-        id_category = Categoria.objects.get(nombre_corto=kwargs['category'])
-        return self.get_serializer().Meta.model.objects.filter(categoria=id_category)
+        try:
+            id_key = Keyword.objects.get(text=kwargs['key'])
+            preguntas = Pregunta.objects.filter(keyword = id_key)            
+            return self.get_serializer().Meta.model.objects.filter(keyword = id_key)
+        except KeyError as e:
+            return self.get_serializer().Meta.model.objects.all()        
+        
+        # id_category = Categoria.objects.get(nombre_corto=kwargs['category'])
+        # return self.get_serializer().Meta.model.objects.filter(categoria=id_category)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset(category=kwargs['category']))        
+        print('list', kwargs['key'])
+        queryset = self.filter_queryset(self.get_queryset(key=kwargs['key']))
 
         serializer = self.get_serializer(queryset, many=True)
-        print({'body':serializer.data})
-        return Response({'body':serializer.data})
+        return Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):        
-        category = request.data['categoria']
-        return self.list(request,category=category)
+    def post(self, request, *args, **kwargs):
+        print(self)
+        print(request)
+        text_clean = self.get_cleantext(request.data['text'])
+        key = self.get_key(text_clean);
+        if key is None:
+            return Response({'error':'No se encuentra key'}, status=status.HTTP_404_NOT_FOUND)
+        # category = request.data['categoria']
+        return self.list(request,key=key)
+
+    def get_key(self, list_text):
+        queryset_keywords = list(Keyword.objects.all())
+        keywords = [k.text for k in queryset_keywords]
+        for word in list_text:
+            if word in keywords:
+                return word
+        return None
+
+    def get_cleantext(self,text):
+        '''Get text(comment). Returns the clean text'''
+        text = text.lower() #lowercase, standardize
+        list_text = text.split(' ')
+        print(list_text)
+        new_list = []
+        p = re.compile(r'[a-z-áéíóúñ]+')#search only words
+        for word in list_text:
+            word = ' '.join(p.findall(word)) #example  "mensaje...con" split = "mensaje con"
+            word = re.sub(r'([abdefghijkmopqsu-zÀ-ÿ])\1{1,}', r'\1', word)      
+            new_list.append(word)
+        return new_list
